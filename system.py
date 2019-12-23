@@ -26,6 +26,20 @@ def tf_zeros (transfer_function):
 
     return zeros
 
+def pole_zero (poles, zeros):
+
+    plt.title("Pole - zero plot")
+    plt.xlabel("Real axis")
+    plt.ylabel("Imaginary axis")
+    plt.grid()
+
+
+    plt.plot(poles.real, poles.imag, 'rx', label = "Poles")
+    plt.plot(zeros.real, zeros.imag, 'bo', label = "Zeros")
+    plt.legend()
+    plt.savefig("Pole - zero plot")
+    plt.show()
+
 
 while(True):
 
@@ -61,24 +75,4 @@ poles = tf_poles(tf)
 zeros = tf_zeros(tf)
 
 
-poloviReal = [None] * len(poles)
-
-
-
-
-
-figure1 = plt.figure()
-
-
-plt.title("Pole - zero plot")
-plt.xlabel("Real axis")
-plt.ylabel("Imaginary axis")
-plt.title("Pole - zero plot")
-plt.grid()
-
-
-plt.plot(poles.real, poles.imag, 'rx', label = "Poles")
-plt.plot(zeros.real, zeros.imag, 'bo', label = "Zeros")
-
-plt.legend()
-plt.show()
+pole_zero(poles, zeros)
