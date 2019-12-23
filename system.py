@@ -26,7 +26,7 @@ def tf_zeros (transfer_function):
 
     return zeros
 
-def pole_zero (poles, zeros):
+def pole_zero_plot (poles, zeros):
 
     plt.title("Pole - zero plot")
     plt.xlabel("Real axis")
@@ -38,41 +38,72 @@ def pole_zero (poles, zeros):
     plt.plot(zeros.real, zeros.imag, 'bo', label = "Zeros")
     plt.legend()
     plt.savefig("Pole - zero plot")
-    plt.show()
+
+
+
+def bode_diagram (transfer_function):
+
+    #Calculating Bode magnitude and phase data from given transfer function of LTI
+    w, mag, phase = signal.bode(transfer_function)
+
+    #Figure with 2 rows and 1 column - first for amplitude, second for phase data
+    plt.subplot(2,1,1)
+    plt.title("Bode diagram")
+
+    #Plotting amplitude vs frequency graph
+    plt.semilogx(w, mag)
+    plt.grid()
+    plt.xlabel("Frequency (rad/s)")
+    plt.ylabel("Amplitude (dB)")
+
+
+    #Plotting phase vs frequency graph
+    plt.subplot(2,1,2)
+    plt.semilogx(w, phase)
+    plt.grid()
+    plt.xlabel("Frequency (rad/s)")
+    plt.ylabel("Phase (deg)")
+
+    #Saving figure in png format
+    plt.savefig("Bode diagram.png")
+
+
 
 
 while(True):
 
-    numOrder = int(input("Enter numerator order: "))
-    denOrder = int(input("Enter denominator order: "))
+    num_order = int(input("Enter numerator order: "))
+    den_order = int(input("Enter denominator order: "))
 
-    if (numOrder > denOrder):
+    if (num_order > den_order):
         print("Order of numerator must be lower or equal to the order of denominator!")
     else:
         break
 
 
-numCoeff = [None] * (numOrder + 1)
-denCoeff = [None] * (denOrder + 1)
+num_coeff = [None] * (num_order + 1)
+den_coeff = [None] * (den_order + 1)
 
 
 #Input of numerator coeff.
-for i in range(len(numCoeff)):
-    print("Enter ", len(numCoeff) - i - 1, ". numerator coefficent:")
-    numCoeff[i] = int(input(" "))
+for i in range(len(num_coeff)):
+    print("Enter ", len(num_coeff) - i - 1, ". numerator coefficent:")
+    num_coeff[i] = int(input(" "))
 
 
 #Input of denominator coeff.
-for i in range(len(denCoeff)):
-    print("Enter ", len(denCoeff) - i - 1, ". denominator coefficent:")
-    denCoeff[i] = int(input(" "))
+for i in range(len(den_coeff)):
+    print("Enter ", len(den_coeff) - i - 1, ". denominator coefficent:")
+    den_coeff[i] = int(input(" "))
     
 
 #Creating transfer function from numerator and denominator
-tf = signal.TransferFunction(numCoeff, denCoeff)    
+tf = signal.TransferFunction(num_coeff, den_coeff)    
 
 poles = tf_poles(tf)            
 zeros = tf_zeros(tf)
 
 
-pole_zero(poles, zeros)
+pole_zero_plot(poles, zeros)
+bode_diagram(tf)
+
