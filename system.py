@@ -6,6 +6,29 @@
 from scipy import signal
 import matplotlib.pyplot as plt
 import numpy as np
+import os
+import sys
+
+
+def save_fig ():
+
+    save_check = input("Do you want to save current figure (Y/n) ? ")
+
+
+    while(True):
+
+        if (save_check == "Y" or save_check == "y"):
+            file_name = input("Enter file name: ")
+            plt.savefig(file_name)
+            print("File saved successfully!")
+            break
+
+        elif (save_check == "n" or save_check == "N"):
+            break
+
+        else:
+            print("Wrong input, enter 'Y' for saving or 'n' for not saving current figure!")
+        
 
 
 #Calculating poles of the transfer function
@@ -35,6 +58,8 @@ def tf_zeros (transfer_function):
 #Creating pole-zero plot 
 def pole_zero_plot (poles, zeros):
 
+    plt.figure()
+
     plt.title("Pole - zero plot")
     plt.xlabel("Real axis")
     plt.ylabel("Imaginary axis")
@@ -46,8 +71,7 @@ def pole_zero_plot (poles, zeros):
     plt.legend()
     
     plt.tight_layout()
-    plt.savefig("Pole - zero plot")
-
+    save_fig()
 
 #Displaying Bode diagram
 def bode_diagram (transfer_function):
@@ -73,8 +97,8 @@ def bode_diagram (transfer_function):
     plt.xlabel("Frequency (rad/s)")
     plt.ylabel("Phase (deg)")
 
-  
-    plt.savefig("Bode diagram")
+    save_fig()
+
 
 
 #Displaying Nyquist diagram
@@ -91,7 +115,8 @@ def nyquist_diagram (transfer_function):
     plt.plot(H.real, -H.imag, "b")
 
     plt.tight_layout()
-    plt.savefig("Nyquist diagram")
+    # plt.savefig("Nyquist diagram")
+    save_fig()
 
 #Calculating and displaying impulse response of the system
 def impulse_response (transfer_function):
@@ -110,7 +135,7 @@ def impulse_response (transfer_function):
     plt.plot(t, y)
     plt.tight_layout()
 
-    plt.savefig("Impulse response")
+    save_fig()
 
 #Calculating and displaying step response of the system
 def step_response (transfer_function):
@@ -129,7 +154,7 @@ def step_response (transfer_function):
     plt.plot(t, y)
     plt.tight_layout()
 
-    plt.savefig("Step response")
+    save_fig()
 
 
 #Input of data necessary to create transfer function of the system
@@ -151,13 +176,13 @@ def data_input ():
         #Input of numerator coeff.
         for i in range(len(num_coeff)):
             print("Enter ", len(num_coeff) - i - 1, ". numerator coefficent:")
-            num_coeff[i] = int(input(" "))
+            num_coeff[i] = float(input(" "))
 
 
         #Input of denominator coeff.
         for i in range(len(den_coeff)):
             print("Enter ", len(den_coeff) - i - 1, ". denominator coefficent:")
-            den_coeff[i] = int(input(" "))
+            den_coeff[i] = float(input(" "))
     
         return num_coeff, den_coeff
 
