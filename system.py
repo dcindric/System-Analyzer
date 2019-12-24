@@ -8,7 +8,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+#Calculating poles of the transfer function
 def tf_poles (transfer_function):
+
     poles = transfer_function.poles
     print("\nPoles of given transfer function: ")
     
@@ -17,7 +19,10 @@ def tf_poles (transfer_function):
 
     return poles
 
+
+#Calculating zeros of the transfer function
 def tf_zeros (transfer_function):
+
     zeros = transfer_function.zeros
     print("\nZeros of give transfer function: ")
 
@@ -26,6 +31,8 @@ def tf_zeros (transfer_function):
 
     return zeros
 
+
+#Creating pole-zero plot 
 def pole_zero_plot (poles, zeros):
 
     plt.title("Pole - zero plot")
@@ -37,10 +44,12 @@ def pole_zero_plot (poles, zeros):
     plt.plot(poles.real, poles.imag, 'rx', label = "Poles")
     plt.plot(zeros.real, zeros.imag, 'bo', label = "Zeros")
     plt.legend()
+    
+    plt.tight_layout()
     plt.savefig("Pole - zero plot")
 
 
-
+#Displaying Bode diagram
 def bode_diagram (transfer_function):
 
     #Calculating Bode magnitude and phase data from given transfer function of LTI
@@ -64,10 +73,11 @@ def bode_diagram (transfer_function):
     plt.xlabel("Frequency (rad/s)")
     plt.ylabel("Phase (deg)")
 
-    #Saving figure in png format
-    plt.savefig("Bode diagram.png")
+  
+    plt.savefig("Bode diagram")
 
 
+#Displaying Nyquist diagram
 def nyquist_diagram (transfer_function):
     w, H = signal.freqresp(transfer_function)
 
@@ -83,9 +93,11 @@ def nyquist_diagram (transfer_function):
     plt.tight_layout()
     plt.savefig("Nyquist diagram")
 
-
+#Calculating and displaying impulse response of the system
 def impulse_response (transfer_function):
 
+    #Impulse method returns two n-dimensional arrays: t (time) and y (response values)
+    #Dimensions of each array can be specified with additional arguments
     t, y = signal.impulse(transfer_function)
     
     plt.figure()
@@ -94,14 +106,17 @@ def impulse_response (transfer_function):
     plt.ylabel("y")
     plt.grid()
 
+    #Plot y vs t 
     plt.plot(t, y)
     plt.tight_layout()
 
     plt.savefig("Impulse response")
 
-
+#Calculating and displaying step response of the system
 def step_response (transfer_function):
 
+    #Step method returns two n-dimensional arrays: t (time) and y (response values)
+    #Dimensions of each array can be specified with additional arguments
     t, y = signal.step(transfer_function)
 
     plt.figure()
@@ -110,38 +125,47 @@ def step_response (transfer_function):
     plt.ylabel("y")
     plt.grid()
 
+    #Plot y vs t
     plt.plot(t, y)
     plt.tight_layout()
 
     plt.savefig("Step response")
 
 
-while(True):
+#Input of data necessary to create transfer function of the system
+def data_input ():
 
-    num_order = int(input("Enter numerator order: "))
-    den_order = int(input("Enter denominator order: "))
+        while(True):
 
-    if (num_order > den_order):
-        print("Order of numerator must be lower or equal to the order of denominator!")
-    else:
-        break
+            num_order = int(input("Enter numerator order: "))
+            den_order = int(input("Enter denominator order: "))
+
+            if (num_order > den_order):
+                print("Order of numerator must be lower or equal to the order of denominator!")
+            else:
+                break
+
+        num_coeff = [None] * (num_order + 1)
+        den_coeff = [None] * (den_order + 1)
+
+        #Input of numerator coeff.
+        for i in range(len(num_coeff)):
+            print("Enter ", len(num_coeff) - i - 1, ". numerator coefficent:")
+            num_coeff[i] = int(input(" "))
 
 
-num_coeff = [None] * (num_order + 1)
-den_coeff = [None] * (den_order + 1)
-
-
-#Input of numerator coeff.
-for i in range(len(num_coeff)):
-    print("Enter ", len(num_coeff) - i - 1, ". numerator coefficent:")
-    num_coeff[i] = int(input(" "))
-
-
-#Input of denominator coeff.
-for i in range(len(den_coeff)):
-    print("Enter ", len(den_coeff) - i - 1, ". denominator coefficent:")
-    den_coeff[i] = int(input(" "))
+        #Input of denominator coeff.
+        for i in range(len(den_coeff)):
+            print("Enter ", len(den_coeff) - i - 1, ". denominator coefficent:")
+            den_coeff[i] = int(input(" "))
     
+        return num_coeff, den_coeff
+
+
+
+
+num_coeff, den_coeff = data_input()
+ 
 
 #Creating transfer function from numerator and denominator
 tf = signal.TransferFunction(num_coeff, den_coeff)    
