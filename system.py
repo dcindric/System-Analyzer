@@ -68,6 +68,52 @@ def bode_diagram (transfer_function):
     plt.savefig("Bode diagram.png")
 
 
+def nyquist_diagram (transfer_function):
+    w, H = signal.freqresp(transfer_function)
+
+    plt.figure()
+    plt.title("Nyquist diagram")
+    plt.xlabel("Real axis")
+    plt.ylabel("Imaginary axis")
+    plt.grid()
+    
+    plt.plot(H.real, H.imag, "b")
+    plt.plot(H.real, -H.imag, "b")
+
+    plt.tight_layout()
+    plt.savefig("Nyquist diagram")
+
+
+def impulse_response (transfer_function):
+
+    t, y = signal.impulse(transfer_function)
+    
+    plt.figure()
+    plt.title("Impulse response of the system")
+    plt.xlabel("t")
+    plt.ylabel("y")
+    plt.grid()
+
+    plt.plot(t, y)
+    plt.tight_layout()
+
+    plt.savefig("Impulse response")
+
+
+def step_response (transfer_function):
+
+    t, y = signal.step(transfer_function)
+
+    plt.figure()
+    plt.title("Step response of the system")
+    plt.xlabel("t")
+    plt.ylabel("y")
+    plt.grid()
+
+    plt.plot(t, y)
+    plt.tight_layout()
+
+    plt.savefig("Step response")
 
 
 while(True):
@@ -106,4 +152,6 @@ zeros = tf_zeros(tf)
 
 pole_zero_plot(poles, zeros)
 bode_diagram(tf)
-
+nyquist_diagram(tf)
+impulse_response(tf)
+step_response(tf)
