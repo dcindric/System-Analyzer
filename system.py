@@ -1,7 +1,6 @@
 #Project name: System analyzer, v.1.0: Based on the given transfer function of linear time invariant system,
 #various representations of the systems behavior are shown (pole - zero plot, Bode diagram, Nyquist diagram,...)
 #Author: Dino Cindric
-#Licence: Creative Common Licence - Free for use and modifying
 
 from scipy import signal
 import matplotlib.pyplot as plt
